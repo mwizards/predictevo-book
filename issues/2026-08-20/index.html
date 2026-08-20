@@ -187,7 +187,7 @@ document.querySelectorAll("table").forEach(function(t){
 document.querySelectorAll(".band").forEach(function(b){
   var seen={},tks=[];
   b.querySelectorAll('td.tk[data-copy="1"],.tkx[data-copy="1"]').forEach(function(td){
-    var m=(td.textContent||"").trim().match(/^[A-Z][A-Z0-9.\-]*/);
+  var m=(td.textContent||"").trim().match(/^[A-Z][A-Z0-9.-]*/);
     if(m&&!seen[m[0]]){seen[m[0]]=1;tks.push(m[0]);}
   });
   var h=b.querySelector(".bh");
@@ -235,7 +235,7 @@ document.querySelectorAll(".band").forEach(function(b){
     return true;
   }
   function show(td){
-    var m=(td.textContent||"").trim().match(/^[A-Z][A-Z0-9.\-]*/);
+    var m=(td.textContent||"").trim().match(/^[A-Z][A-Z0-9.-]*/);
     if(!m||!draw(m[0]))return;
     cp.style.display="block";
     var r=td.getBoundingClientRect(),w=cp.offsetWidth;
