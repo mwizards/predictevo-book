@@ -1,0 +1,403 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Predictevo — Decision Brief · 2026-08-21</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Instrument+Sans:wght@400;500;600;700&family=Sora:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#060b14;--surf:#0d1524;--surf-2:#131e30;--hair:rgba(148,163,184,.14);
+    --hair-2:rgba(148,163,184,.07);--ink:#cbd5e1;--ink-hi:#f8fafc;--ink-lo:#8494ab;
+    --brass:#5ea1ff;--pos:#34c37a;--neg:#ef5a52;--warn:#e0a34a;--cool:#5f96d6;
+    --pos-bg:rgba(52,195,122,.13);--neg-bg:rgba(239,90,82,.13);
+    --warn-bg:rgba(224,163,74,.13);--brass-bg:rgba(94,161,255,.13);
+    --lift:0 1px 2px rgba(0,0,0,.35),0 6px 20px -8px rgba(0,0,0,.5);
+    --sans:'Inter',ui-sans-serif,-apple-system,"Segoe UI Variable Text","Helvetica Neue",Arial,sans-serif;
+    --mono:ui-monospace,"SF Mono",SFMono-Regular,Menlo,Consolas,monospace;--r:10px;}
+  @media (prefers-color-scheme:light){:root{--bg:#f1f5f9;--surf:#fff;--surf-2:#f8fafc;
+    --hair:rgba(15,23,42,.10);--hair-2:rgba(15,23,42,.05);--ink:#334155;--ink-hi:#0f172a;
+    --ink-lo:#64748b;--brass:#0a5dc2;--pos:#15803d;--neg:#dc2626;--warn:#a16207;--cool:#2563eb;
+    --pos-bg:rgba(22,163,74,.10);--neg-bg:rgba(220,38,38,.10);--warn-bg:rgba(161,98,7,.10);
+    --brass-bg:rgba(10,93,194,.10);--lift:0 1px 2px rgba(15,23,42,.06),0 8px 24px -12px rgba(15,23,42,.18);}}
+  :root[data-theme="light"]{--bg:#f1f5f9;--surf:#fff;--surf-2:#f8fafc;--hair:rgba(15,23,42,.10);
+    --hair-2:rgba(15,23,42,.05);--ink:#334155;--ink-hi:#0f172a;--ink-lo:#64748b;--brass:#0a5dc2;
+    --pos:#15803d;--neg:#dc2626;--warn:#a16207;--cool:#2563eb;--pos-bg:rgba(22,163,74,.10);
+    --neg-bg:rgba(220,38,38,.10);--warn-bg:rgba(161,98,7,.10);--brass-bg:rgba(10,93,194,.10);
+    --lift:0 1px 2px rgba(15,23,42,.06),0 8px 24px -12px rgba(15,23,42,.18);}
+  :root[data-theme="dark"]{--bg:#060b14;--surf:#0d1524;--surf-2:#131e30;--hair:rgba(148,163,184,.14);
+    --hair-2:rgba(148,163,184,.07);--ink:#cbd5e1;--ink-hi:#f8fafc;--ink-lo:#8494ab;--brass:#5ea1ff;
+    --pos:#34c37a;--neg:#ef5a52;--warn:#e0a34a;--cool:#5f96d6;--pos-bg:rgba(52,195,122,.13);
+    --neg-bg:rgba(239,90,82,.13);--warn-bg:rgba(224,163,74,.13);--brass-bg:rgba(94,161,255,.13);
+    --lift:0 1px 2px rgba(0,0,0,.35),0 6px 20px -8px rgba(0,0,0,.5);}
+  body{background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.5;
+       -webkit-font-smoothing:antialiased;}
+  .wrap{max-width:1220px;margin:0 auto;padding:40px 24px 80px;display:flex;
+        flex-direction:column;gap:28px;}
+  .mono,td.n,.v,.big{font-family:var(--mono);font-variant-numeric:tabular-nums;}
+  .pos{color:var(--pos);}.neg{color:var(--neg);}.warn{color:var(--warn);}.lo{color:var(--ink-lo);}
+  .lbl{font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--ink-lo);font-weight:600;}
+  header{background:linear-gradient(135deg,#001426 0%,#00304f 100%);border-radius:var(--r);
+    padding:22px 26px;box-shadow:var(--lift);display:flex;flex-wrap:wrap;align-items:center;
+    gap:12px 20px;}
+  .brand{display:flex;align-items:baseline;gap:14px;}
+  .logo{font-weight:800;font-size:23px;letter-spacing:-.03em;color:#fff;}
+  .logo::after{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;
+    background:#22c55e;margin-left:5px;}
+  .prod{font-size:11px;letter-spacing:.22em;text-transform:uppercase;
+    color:rgba(255,255,255,.62);font-weight:700;}
+  header .meta,header .spy{font-family:var(--mono);font-size:12.5px;color:rgba(255,255,255,.55);}
+  header .spy{margin-left:auto;} header .spy b{color:#fff;font-weight:600;font-size:15px;}
+  .sw{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;}
+  .s{background:var(--surf);border:1px solid var(--hair);border-radius:var(--r);padding:13px 15px;
+     display:flex;flex-direction:column;gap:5px;box-shadow:var(--lift);position:relative;overflow:hidden;}
+  .s::before{content:"";position:absolute;inset:0 auto 0 0;width:2px;background:var(--dot,var(--ink-lo));}
+  .s .v{font-size:17px;color:var(--ink-hi);letter-spacing:-.01em;}
+  .s .r{font-size:11px;color:var(--ink-lo);font-family:var(--mono);}
+  .s.g{--dot:var(--pos);}.s.r_{--dot:var(--neg);}.s.a{--dot:var(--warn);}.s.b{--dot:var(--cool);}
+  .band{background:var(--surf);border:1px solid var(--hair);border-radius:var(--r);
+        box-shadow:var(--lift);overflow:hidden;}
+  .bh{display:flex;flex-wrap:wrap;align-items:center;gap:8px 18px;padding:16px 20px;
+      border-bottom:1px solid var(--hair);}
+  .bh .ix{font-family:var(--mono);font-size:11px;color:var(--brass);letter-spacing:.14em;font-weight:600;}
+  .bh h2{font-size:15px;font-weight:640;color:var(--ink-hi);letter-spacing:-.01em;}
+  .bh .fields{margin-left:auto;display:flex;flex-wrap:wrap;gap:6px 8px;}
+  .fld{font-family:var(--mono);font-size:11px;color:var(--ink-lo);background:var(--surf-2);
+       border:1px solid var(--hair-2);border-radius:5px;padding:3px 9px;}
+  .fld b{color:var(--ink);font-weight:500;}
+  .wts{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;padding:18px 20px;}
+  .wt{background:var(--surf-2);border:1px solid var(--hair-2);border-radius:8px;padding:14px 16px;
+      display:flex;flex-direction:column;gap:4px;}
+  .wt .big{font-size:30px;color:var(--ink-hi);letter-spacing:-.03em;line-height:1;}
+  .wt .r{font-size:11px;color:var(--ink-lo);font-family:var(--mono);}
+  .wt.off .big{color:var(--ink-lo);}
+  .scroll{overflow-x:auto;}
+  table{border-collapse:collapse;width:100%;font-size:12.5px;min-width:640px;}
+  th,td{padding:9px 16px;text-align:left;white-space:nowrap;border-bottom:1px solid var(--hair-2);}
+  th{font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-lo);
+     font-weight:600;background:var(--surf-2);cursor:pointer;user-select:none;}
+  th:hover{color:var(--ink);}
+  th[data-tip]{cursor:help;text-decoration:underline dotted 1px;text-underline-offset:3px;}
+  #tt{position:absolute;display:none;max-width:300px;background:#1c2128;color:#e6edf3;
+      font-size:11.5px;line-height:1.5;letter-spacing:.01em;text-transform:none;font-weight:400;
+      padding:9px 12px;border-radius:7px;border:1px solid #30363d;
+      box-shadow:0 6px 24px rgba(0,0,0,.45);z-index:99;pointer-events:none;white-space:normal;}
+  th.sorted-a::after{content:" ▲";color:var(--brass);} th.sorted-d::after{content:" ▼";color:var(--brass);}
+  tbody tr:last-child td{border-bottom:none;} tbody tr:hover{background:var(--surf-2);}
+  td.n{text-align:right;}
+  td.tk{font-family:var(--mono);font-weight:600;color:var(--ink-hi);font-size:13px;}
+  td.why{color:var(--ink-lo);font-size:11.5px;white-space:normal;min-width:180px;}
+  .chip{display:inline-flex;align-items:center;font-size:10px;letter-spacing:.07em;
+        text-transform:uppercase;padding:3px 9px;border-radius:5px;font-weight:700;}
+  .c-buy{color:var(--pos);background:var(--pos-bg);}.c-lim{color:var(--brass);background:var(--brass-bg);}
+  .c-wait{color:var(--ink-lo);background:var(--surf-2);}.c-no{color:var(--neg);background:var(--neg-bg);}
+  details{border-top:1px solid var(--hair-2);}
+  details summary{padding:10px 20px;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--ink-lo);font-weight:700;cursor:pointer;list-style:none;display:flex;gap:8px;}
+  details summary::before{content:"▸";color:var(--brass);transition:transform .15s;}
+  details[open] summary::before{transform:rotate(90deg);}
+  details summary:hover{color:var(--ink);background:var(--surf-2);}
+  .note{padding:12px 20px;font-size:11.5px;color:var(--ink-lo);}
+  :focus-visible{outline:2px solid var(--brass);outline-offset:3px;}
+  .dec{border-left:3px solid var(--brass);}
+  .decwrap{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+           gap:0 28px;padding:2px 20px 14px;}
+  .dlbl{display:block;font-size:9.5px;letter-spacing:.15em;text-transform:uppercase;
+        font-weight:700;padding:8px 0 4px;}
+  .dcol.add .dlbl{color:var(--pos);}.dcol.watch .dlbl{color:var(--brass);}
+  .dcol.avoid .dlbl{color:var(--neg);}
+  .drow{display:flex;align-items:baseline;gap:10px;padding:6px 0;
+        border-bottom:1px solid var(--hair-2);}
+  .dcol .drow:last-child{border-bottom:none;}
+  .tkx{font-family:var(--mono);font-weight:700;font-size:14.5px;color:var(--ink-hi);
+       cursor:pointer;min-width:52px;}
+  .dwhy{font-size:11px;color:var(--ink-lo);}
+  details.star{background:var(--brass-bg);}
+  details.star summary{color:var(--brass);}
+  .cpy{font:600 10px var(--mono);letter-spacing:.08em;color:var(--ink-lo);
+       background:var(--surf-2);border:1px solid var(--hair-2);border-radius:6px;
+       padding:5px 10px;cursor:pointer;}
+  .cpy:hover{color:var(--ink-hi);border-color:var(--brass);}
+  td.tk{cursor:pointer;}
+  #chartpop{position:absolute;display:none;z-index:98;background:#1c2128;
+    border:1px solid #30363d;border-radius:8px;padding:8px 8px 4px;
+    box-shadow:0 6px 24px rgba(0,0,0,.45);pointer-events:none;}
+  #chartpop .cap{font:600 10.5px var(--mono);color:#e6edf3;padding:3px 4px 4px;}
+  @media (prefers-reduced-motion:reduce){*{transition:none!important;}}
+
+  :root,:root[data-theme="light"],:root[data-theme="dark"]{
+    --bg:#f7f8fa;--surf:#ffffff;--surf-2:#f1f3f5;--hair:#dfe3e8;--hair-2:#edf0f2;
+    --ink:#33404c;--ink-hi:#101820;--ink-lo:#71808f;--brass:#1769aa;
+    --pos:#008f62;--neg:#c53b38;--warn:#c47a00;--cool:#1769aa;
+    --pos-bg:#e7f5ef;--neg-bg:#fbeceb;--warn-bg:#fff4df;--brass-bg:#eaf2f9;
+    --lift:none;--r:4px;--sans:'Instrument Sans','Inter',ui-sans-serif,-apple-system,sans-serif;
+    --display:'Sora','Instrument Sans',ui-sans-serif,sans-serif;
+    --mono:'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+  }
+  *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);}
+  .wrap{max-width:1080px;margin:0 auto;padding:30px 24px 72px;gap:16px;}
+  header{background:transparent;border-radius:0;border-bottom:1px solid var(--ink-hi);
+    padding:0 0 16px;box-shadow:none;color:var(--ink-hi);}
+  .logo{font-family:var(--display);font-size:20px;color:var(--ink-hi);letter-spacing:-.04em;}
+  .logo::after{width:5px;height:5px;background:var(--pos);margin-left:4px;}
+  .prod{color:var(--ink-lo);font-size:9px;letter-spacing:.18em;}
+  header .meta,header .spy{color:var(--ink-lo);font-size:10.5px;}
+  header .spy b{color:var(--ink-hi);font-size:12px;}
+  header .research-link{font:600 9.5px var(--mono);letter-spacing:.04em;color:var(--brass);
+    text-decoration:none;border-bottom:1px solid var(--hair);padding-bottom:2px;}
+  header .research-link:hover{color:var(--ink-hi);border-color:var(--ink-hi);}
+  .brief-hero{padding:26px 0 20px;border-bottom:1px solid var(--hair);}
+  .eyebrow{font:700 9px var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--pos);}
+  .thesis{font-family:var(--display);font-size:clamp(28px,5vw,50px);line-height:1.05;
+    letter-spacing:-.055em;color:var(--ink-hi);max-width:900px;margin:9px 0 12px;}
+  .deck{max-width:760px;font-size:14px;line-height:1.65;color:var(--ink);margin:0;}
+  .context-line{display:flex;gap:7px;flex-wrap:wrap;padding:13px 0 0;}
+  .context-pill{font:550 10.5px var(--mono);border:1px solid var(--hair);background:var(--surf);
+    color:var(--ink);padding:5px 8px;border-radius:3px;}
+  .context-pill strong{color:var(--ink-hi);font-weight:650;}
+  .context-pill.good{border-color:#b9dfcf;background:var(--pos-bg);color:var(--pos);}
+  .context-pill.warn{border-color:#ecd4a9;background:var(--warn-bg);color:var(--warn);}
+  .context-pill.bad{border-color:#edc1bf;background:var(--neg-bg);color:var(--neg);}
+  .decision-panel{background:var(--surf);border:1px solid var(--hair);border-radius:5px;overflow:hidden;}
+  .decision-head{display:flex;align-items:end;justify-content:space-between;gap:16px;
+    padding:15px 18px 13px;border-bottom:1px solid var(--hair);}
+  .decision-head h2{font-family:var(--display);font-size:16px;letter-spacing:-.03em;
+    color:var(--ink-hi);margin:0;}
+  .decision-head p{font:500 10px var(--mono);color:var(--ink-lo);margin:0;text-align:right;}
+  .focus-row{display:grid;grid-template-columns:34px minmax(230px,1.45fr) minmax(180px,1fr)
+    108px 94px;align-items:center;gap:14px;padding:15px 18px;border-bottom:1px solid var(--hair-2);}
+  .focus-row:last-child{border-bottom:0}.focus-row:hover{background:#fafbfc;}
+  .rank{font:500 10px var(--mono);color:#a1aab3;align-self:start;padding-top:3px;}
+  .ticker-line{display:flex;align-items:baseline;gap:9px;flex-wrap:wrap;}
+  .ticker{font:700 17px var(--mono);color:var(--ink-hi);letter-spacing:-.04em;}
+  .setup-name{font:700 9px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--brass);}
+  .case{font-size:12px;line-height:1.5;color:var(--ink);margin-top:4px;}
+  .fundamentals{font:500 10px/1.55 var(--mono);margin-top:5px;color:var(--ink-lo);}
+  .fundamentals.good{color:var(--pos)}.fundamentals.warn{color:var(--warn)}
+  .fundamentals.bad{color:var(--neg)}
+  .signal{font:500 10.5px/1.6 var(--mono);color:var(--ink-lo);}
+  .signal b{color:var(--ink-hi);font-weight:600;}
+  .proof{display:inline-flex;width:max-content;font:700 8.5px var(--mono);letter-spacing:.09em;
+    text-transform:uppercase;padding:4px 7px;border-radius:3px;}
+  .proof.measured{color:var(--pos);background:var(--pos-bg);}
+  .proof.retrospective{color:var(--brass);background:var(--brass-bg);}
+  .proof.cohort{color:var(--warn);background:var(--warn-bg);}
+  .proof.experimental{color:var(--neg);background:var(--neg-bg);}
+  .risk{font:500 10px/1.55 var(--mono);color:var(--ink-lo);text-align:right;}
+  .risk.hot{color:var(--neg);}.risk.stretch{color:var(--warn);}
+  .watch-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));}
+  .watch-row{padding:13px 18px;border-bottom:1px solid var(--hair-2);display:grid;
+    grid-template-columns:70px 1fr auto;gap:12px;align-items:center;}
+  .watch-row:nth-child(odd){border-right:1px solid var(--hair-2);}
+  .watch-row .ticker{font-size:13px}.watch-row .case{font-size:11px;margin:0;color:var(--ink-lo);}
+  .watch-row .setup-name{font-size:8px;}
+  .change-list{padding:2px 18px 12px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 26px;}
+  .change{display:flex;gap:10px;align-items:baseline;padding:9px 0;border-bottom:1px solid var(--hair-2);}
+  .change .ticker{font-size:12px;min-width:58px}.change span:last-child{font-size:11px;color:var(--ink-lo);}
+  details.quiet{background:var(--surf);border:1px solid var(--hair);border-radius:5px;}
+  details.quiet summary{border:0;padding:13px 18px;color:var(--ink);font-size:9px;}
+  .evidence-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-top:1px solid var(--hair);}
+  .evidence-cell{padding:16px 18px;border-right:1px solid var(--hair-2);}
+  .evidence-cell:last-child{border-right:0}.evidence-cell h3{font:700 10px var(--mono);
+    text-transform:uppercase;letter-spacing:.08em;color:var(--ink-hi);margin:0 0 7px;}
+  .evidence-cell p{font-size:11px;line-height:1.6;color:var(--ink-lo);margin:0;}
+  .footline{font:500 9.5px/1.6 var(--mono);color:var(--ink-lo);padding:4px 2px;}
+  a{color:var(--brass);text-decoration:none}a:hover{text-decoration:underline;}
+  @media(max-width:760px){
+    .wrap{padding:20px 12px 48px}.thesis{font-size:32px}.deck{font-size:13px}
+    .focus-row{grid-template-columns:26px 1fr;gap:8px 10px;padding:14px 13px;}
+    .focus-row .signal,.focus-row .proof,.focus-row .risk{grid-column:2;}
+    .risk{text-align:left}.decision-head{align-items:start;padding:13px}.decision-head p{max-width:150px}
+    .watch-grid,.change-list,.evidence-grid{grid-template-columns:1fr}
+    .watch-row:nth-child(odd){border-right:0}.evidence-cell{border-right:0;border-bottom:1px solid var(--hair-2)}
+  }
+
+  .brief-hero .thesis em{font-style:normal;color:var(--pos)}
+  .mandate-line{font:600 9px/1.5 var(--mono);letter-spacing:.09em;text-transform:uppercase;
+    color:var(--ink-lo);margin:0 0 8px}
+  .mandate-line strong{color:var(--ink-hi)}
+  .action-strip{display:flex;gap:8px;flex-wrap:wrap;margin-top:15px}
+  .action-chip{font:600 9.5px var(--mono);padding:6px 9px;border:1px solid var(--hair);
+    border-radius:3px;background:var(--surf);color:var(--ink)}
+  .action-chip strong{color:var(--ink-hi)}
+  .section-kicker{font:700 8.5px var(--mono);letter-spacing:.16em;text-transform:uppercase;
+    color:var(--pos);margin-bottom:5px}
+  .best-panel{border-top:3px solid var(--ink-hi)}
+  .best-panel .decision-head{align-items:start}
+  .best-panel .focus-row{grid-template-columns:34px minmax(250px,1.5fr) minmax(190px,1fr) 108px 94px}
+  .life-panel{background:transparent;border:0;overflow:visible}
+  .life-panel>.decision-head{padding:2px 0 13px;border-bottom:1px solid var(--ink-hi)}
+  .life-board{position:relative;margin-top:0;background:var(--surf);border:1px solid var(--hair);
+    border-top:0}
+  .life-board:before{content:"";position:absolute;left:28px;top:25px;bottom:25px;width:1px;
+    background:linear-gradient(var(--pos) 0 25%,var(--warn) 25% 50%,var(--brass) 50% 75%,#a1aab3 75%)}
+  .life-stage{display:grid;grid-template-columns:58px 150px 1fr;border-bottom:1px solid var(--hair-2);
+    min-height:88px}
+  .life-stage:last-child{border-bottom:0}
+  .life-marker{position:relative;display:flex;justify-content:center;padding-top:24px}
+  .life-dot{position:relative;z-index:1;width:11px;height:11px;border-radius:50%;background:var(--surf);
+    border:3px solid #a1aab3;box-shadow:0 0 0 5px var(--surf)}
+  .life-stage.fresh .life-dot{border-color:var(--pos)}
+  .life-stage.armed .life-dot{border-color:var(--warn)}
+  .life-stage.worked .life-dot{border-color:var(--brass)}
+  .life-label{padding:20px 14px 18px 0}
+  .life-label b{display:block;font:700 10px var(--mono);letter-spacing:.11em;text-transform:uppercase;
+    color:var(--ink-hi);margin-bottom:6px}
+  .life-label span{display:block;font-size:10.5px;line-height:1.45;color:var(--ink-lo)}
+  .life-cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));border-left:1px solid var(--hair-2)}
+  .life-card{padding:16px 18px;border-left:1px solid var(--hair-2)}
+  .life-card:nth-child(odd){border-left:0}
+  .life-card:nth-child(n+3){border-top:1px solid var(--hair-2)}
+  .life-card .ticker-line{justify-content:space-between}
+  .state-badge{font:700 8px var(--mono);letter-spacing:.08em;text-transform:uppercase;
+    padding:4px 6px;border-radius:2px;background:var(--surf-2);color:var(--ink-lo)}
+  .fresh .state-badge{background:var(--pos-bg);color:var(--pos)}
+  .armed .state-badge{background:var(--warn-bg);color:var(--warn)}
+  .worked .state-badge{background:var(--brass-bg);color:var(--brass)}
+  .life-action{font:650 10.5px/1.5 var(--mono);color:var(--ink-hi);margin-top:8px}
+  .metric-line{font:500 9.5px/1.6 var(--mono);color:var(--ink-lo);margin-top:6px}
+  .metric-line .up{color:var(--pos)}.metric-line .hot{color:var(--warn)}
+  .lab-panel{border-style:dashed}.lab-panel .decision-head{background:#fbfaf8}
+  .lab-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}
+  .lab-card{padding:16px 18px;border-right:1px solid var(--hair-2)}
+  .lab-card:last-child{border-right:0}.lab-card .case{min-height:52px}
+  .empty-stage{padding:20px 18px;font-size:11px;color:var(--ink-lo)}
+  @media(max-width:760px){
+    .decision-head{flex-direction:column;align-items:flex-start;gap:5px}
+    .decision-head p{text-align:left;max-width:none}
+    .best-panel .focus-row{grid-template-columns:26px 1fr}
+    .life-stage{grid-template-columns:42px 1fr}.life-marker{padding-top:22px}
+    .life-board:before{left:20px}.life-label{padding:18px 12px 10px 0}
+    .life-cards{grid-column:2;border-left:0;grid-template-columns:1fr}
+    .life-card{border-left:0;border-top:1px solid var(--hair-2);padding:14px 12px 15px 0}
+    .life-card:nth-child(n+3){border-top:1px solid var(--hair-2)}
+    .lab-grid{grid-template-columns:1fr}.lab-card{border-right:0;border-bottom:1px solid var(--hair-2)}
+    .lab-card:last-child{border-bottom:0}.action-strip{gap:6px}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+<header><div class="brand"><span class="logo">Predictevo</span><span class="prod">Decision Brief</span></div><span class="meta">2026-08-21 · after close</span><a class="research-link" href="../">Full Decision Book →</a><span class="spy">SPY <b>762.60</b></span></header>
+<section class="brief-hero"><div class="eyebrow">Today’s decision stack</div><h1 class="thesis">UNP is the action. Crowns show timing—not rank.</h1><p class="deck"> No crown is actionable by default. The page separates primary selection, setup attention, and entry timing.</p><div class="action-strip"><span class="action-chip"><strong>5</strong> primary actions</span><span class="action-chip"><strong>0</strong> fresh crowns</span><span class="action-chip"><strong>0</strong> worked / no chase</span><span class="action-chip"><strong>5</strong> moonshots in lab</span></div><div class="context-line"><span class="context-pill good">Core <strong>risk-on</strong></span><span class="context-pill good">Tape <strong>confirmation on</strong></span><span class="context-pill ">Regime <strong>Reflation · 38% · transition: Stagflation 30%</strong></span><span class="context-pill warn">Late cycle <strong>stage 4</strong></span><span class="context-pill ">Core mix <strong>60/25/0/15</strong></span></div></section><section class="decision-panel best-panel"><div class="decision-head"><div><div class="section-kicker">Primary shortlist</div><h2>Best action now</h2></div><p>primary lanes · evidence disclosed<br>crowns cannot displace these</p></div><article class="focus-row"><div class="rank">01</div><div><div class="ticker-line"><span class="ticker">UNP</span><span class="setup-name">COIL confluence</span></div><div class="case">4/4 gates · MaxAvg21 3.8% · P(+10%) 6% · also Armed squeeze</div><div class="fundamentals good">profitable · revenue +4% YoY · net margin +29% · FCF margin +26% · F-score 8/9</div></div><div class="signal"><b>limit near rail</b><br>$303.97 · 21d</div><span class="proof cohort">Path cohort</span><div class="risk ">published stop 4.8%</div></article><article class="focus-row"><div class="rank">02</div><div><div class="ticker-line"><span class="ticker">JNJ</span><span class="setup-name">COIL confluence</span></div><div class="case">4/4 gates · MaxAvg21 3.8% · P(+10%) 6%</div><div class="fundamentals good">profitable + growing · revenue +8% YoY · net margin +21% · FCF margin +19% · F-score 8/9</div></div><div class="signal"><b>limit near rail</b><br>$267.37 · 21d</div><span class="proof cohort">Path cohort</span><div class="risk ">published stop 5.1%</div></article><article class="focus-row"><div class="rank">03</div><div><div class="ticker-line"><span class="ticker">TECH</span><span class="setup-name">Armed squeeze</span></div><div class="case">RS +52pp · sector excess +38pp · 1d coil</div><div class="fundamentals warn">profitable / shrinking · revenue -0% YoY · net margin +15% · FCF margin +22% · F-score 8/9</div></div><div class="signal"><b>wait for rail</b><br>$72.28 · 21d / 63d</div><span class="proof retrospective">Backtest only</span><div class="risk stretch">7.4σ extended · wait for rail</div></article><article class="focus-row"><div class="rank">04</div><div><div class="ticker-line"><span class="ticker">DLTR</span><span class="setup-name">Armed squeeze</span></div><div class="case">RS +35pp · sector excess +38pp · 1d coil</div><div class="fundamentals warn">profitable / shrinking · revenue -20% YoY · net margin +7% · FCF margin +8% · F-score 8/9</div></div><div class="signal"><b>trigger only</b><br>$128.45 · 21d / 63d</div><span class="proof retrospective">Backtest only</span><div class="risk ">ATR 2.8%</div></article><article class="focus-row"><div class="rank">05</div><div><div class="ticker-line"><span class="ticker">ABSI</span><span class="setup-name">Trend rearm</span></div><div class="case">RS +85pp · sector excess +70pp</div><div class="fundamentals bad">clinical biotech / loss-making · revenue -62% YoY (lumpy/base effect) · net margin -7756% · FCF margin -6981% · F-score 4/9</div></div><div class="signal"><b>buyable rearm</b><br>$9.28 · 21d / 63d</div><span class="proof retrospective">Backtest only</span><div class="risk ">ATR 7.1%</div></article></section><section class="decision-panel life-panel"><div class="decision-head"><div><div class="section-kicker">Attention radar</div><h2>Crown lifecycle</h2></div><p>entry quality, not a universal score<br>experimental until forward evidence matures</p></div><div class="life-board"><div class="life-stage fresh"><div class="life-marker"><span class="life-dot"></span></div><div class="life-label"><b>Fresh</b><span>Entry is near the trigger; pilot territory.</span></div><div class="life-cards"><div class="empty-stage">No names in this state today.</div></div></div><div class="life-stage armed"><div class="life-marker"><span class="life-dot"></span></div><div class="life-label"><b>Armed</b><span>Interesting now, but the trigger still matters.</span></div><div class="life-cards"><article class="life-card armed"><div class="ticker-line"><span class="ticker">ALKS</span><span class="state-badge">ARMED CONVEX</span></div><div class="setup-name">👑 Convex Rearm</div><div class="life-action">Small defined-risk pilot only · catalyst outcome is unknowable</div><div class="metric-line"><span class="up">20d -9.3%</span> · vs 200d +30.5% · RS Δ10d -4.5pp</div><div class="fundamentals good">profitable + growing · revenue +11% YoY · net margin +4% · FCF margin +13% · F-score 4/9</div></article><article class="life-card armed"><div class="ticker-line"><span class="ticker">NUVB</span><span class="state-badge">ARMED CONVEX</span></div><div class="setup-name">👑 Convex Rearm</div><div class="life-action">Small defined-risk pilot only · catalyst outcome is unknowable</div><div class="metric-line"><span class="up">20d +5.2%</span> · vs 200d +16.8% · RS Δ10d +31.4pp</div><div class="fundamentals bad">clinical biotech / loss-making · revenue +1084% YoY (lumpy/base effect) · net margin -88% · FCF margin -49% · F-score 3/9</div></article><article class="life-card armed"><div class="ticker-line"><span class="ticker">COKE</span><span class="state-badge">ARMED</span></div><div class="setup-name">👑 Rebase</div><div class="life-action">Set an alert · buy only the breakout or first quiet pullback</div><div class="metric-line"><span class="up">20d +5.3%</span> · vs 200d +6.2% · RS Δ10d +18.1pp</div><div class="fundamentals good">profitable + growing · revenue +11% YoY · net margin +7% · FCF margin +8% · F-score 6/9</div></article><article class="life-card armed"><div class="ticker-line"><span class="ticker">XLB</span><span class="state-badge">ARMED</span></div><div class="setup-name">👑 Rebase</div><div class="life-action">Set an alert · buy only the breakout or first quiet pullback</div><div class="metric-line"><span class="up">20d +4.2%</span> · vs 200d +6.2% · RS Δ10d +7.4pp</div><div class="fundamentals bad">pre-revenue / loss-making</div></article><article class="life-card armed"><div class="ticker-line"><span class="ticker">DLR</span><span class="state-badge">ARMED</span></div><div class="setup-name">👑 Rebase</div><div class="life-action">Set an alert · buy only the breakout or first quiet pullback</div><div class="metric-line"><span class="up">20d +8.3%</span> · vs 200d +9.8% · RS Δ10d +7.0pp</div><div class="fundamentals good">profitable + growing · revenue +19% YoY · net margin +12% · FCF margin +20% · F-score 6/9</div></article></div></div><div class="life-stage worked"><div class="life-marker"><span class="life-dot"></span></div><div class="life-label"><b>Worked / no chase</b><span>The signal paid. Ownership and fresh entry are different decisions.</span></div><div class="life-cards"><div class="empty-stage">No names in this state today.</div></div></div><div class="life-stage wait"><div class="life-marker"><span class="life-dot"></span></div><div class="life-label"><b>Wait / rearm</b><span>Keep the alert; withhold fresh capital.</span></div><div class="life-cards"><article class="life-card wait"><div class="ticker-line"><span class="ticker">OKTA</span><span class="state-badge">WAIT</span></div><div class="setup-name">👑 Convex Rearm</div><div class="life-action">Relative strength is not confirming · no fresh risk</div><div class="metric-line"><span class="up">20d -1.4%</span> · vs 200d +36.9% · RS Δ10d -30.5pp</div><div class="fundamentals good">profitable + growing · revenue +12% YoY · net margin +8% · FCF margin +30% · F-score 7/9</div></article></div></div></div></section><section class="decision-panel lab-panel"><div class="decision-head"><div><div class="section-kicker">Long-tail lab</div><h2>Moonshots</h2></div><p>separate mandate · trigger-only<br>never promoted above validated focus</p></div><div class="lab-grid"><article class="lab-card"><div class="ticker-line"><span class="ticker">WYHG</span><span class="state-badge">ARMED</span></div><div class="case">RS +54pp · vol 751% · 10d coil</div><div class="life-action">speculative pilot</div><div class="fundamentals bad">profitable / shrinking · revenue -9% YoY · net margin +4% · FCF margin -13% · F-score 3/9</div></article><article class="lab-card"><div class="ticker-line"><span class="ticker">QTTB</span><span class="state-badge">ARMED</span></div><div class="case">RS +172pp · vol 56% · 9d coil</div><div class="life-action">trigger only</div><div class="fundamentals warn">biotech / profitable TTM; revenue may be lumpy · net margin +63% · FCF margin -37% · F-score 5/9</div></article><article class="lab-card"><div class="ticker-line"><span class="ticker">DFTX</span><span class="state-badge">ARMED</span></div><div class="case">RS +111pp · vol 60% · 24d coil</div><div class="life-action">trigger only</div><div class="fundamentals bad">pre-revenue biotech / loss-making · F-score 3/9</div></article><article class="lab-card"><div class="ticker-line"><span class="ticker">NUVB</span><span class="state-badge">ARMED</span></div><div class="case">RS +47pp · vol 66% · 7d coil</div><div class="life-action">trigger only</div><div class="fundamentals bad">clinical biotech / loss-making · revenue +1084% YoY (lumpy/base effect) · net margin -88% · FCF margin -49% · F-score 3/9</div></article><article class="lab-card"><div class="ticker-line"><span class="ticker">NUAI</span><span class="state-badge">ARMED</span></div><div class="case">RS +33pp · vol 113% · 3d coil</div><div class="life-action">trigger only</div><div class="fundamentals bad">loss-making / growing · revenue +34% YoY · net margin -4383% · FCF margin -2124% · F-score 2/9</div></article></div></section><section class="decision-panel"><div class="decision-head"><div><div class="section-kicker">Next bench</div><h2>Watch next</h2></div><p>primary families · better trigger required</p></div><div class="watch-grid"><div class="watch-row"><div><span class="ticker">ADVB</span></div><div><span class="setup-name">Trend rearm</span><div class="case">RS +82pp · sector excess +82pp</div><div class="fundamentals bad">pre-revenue / loss-making · F-score 1/9</div></div><span class="proof retrospective">Backtest only</span></div><div class="watch-row"><div><span class="ticker">BBY</span></div><div><span class="setup-name">Trend rearm</span><div class="case">RS +38pp · sector excess +42pp</div><div class="fundamentals good">profitable · revenue +1% YoY · net margin +3% · FCF margin +4% · F-score 8/9</div></div><span class="proof retrospective">Backtest only</span></div></div></section>
+<details class="quiet"><summary>Ignore today · blocked, invalidated or no longer qualifying</summary><div class="change-list"><div class="change"><span class="ticker">ATAI</span><span>Pending Eli Lilly acquisition announced 2026-07-16: $6.75 cash plus a contingent value right worth up to $2.50. Price/volatility are merger-arbitrage mechanics, not an actionable squeeze or momentum setup.</span></div><div class="change"><span class="ticker">CCO</span><span>M&amp;A arbitrage pin pattern — 30d range $2.35-2.41 (2.5% total), 0 days &gt;2% move, volatility collapsed to 8% of historical. Classic tender-offer or fixed-ratio merger behavior. Not a tradeable squeeze despite mechanical signal hits.</span></div><div class="change"><span class="ticker">YOU</span><span>stop hit — exited by the rules</span></div><div class="change"><span class="ticker">VCYT</span><span>stop hit — exited by the rules</span></div><div class="change"><span class="ticker">RRX</span><span>stop hit — exited by the rules</span></div><div class="change"><span class="ticker">FCEL</span><span>stop hit — exited by the rules</span></div><div class="change"><span class="ticker">RBA</span><span>stop hit — exited by the rules</span></div><div class="change"><span class="ticker">CRS</span><span>stop hit — exited by the rules</span></div></div></details>
+None
+<details class="quiet"><summary>Evidence, definitions and rejected models</summary><div class="evidence-grid"><div class="evidence-cell"><h3>OOS observed</h3><p>CMO: 56.6% positive at 10 sessions and +0.93pp beta-adjusted alpha in retrospective 2025–26 OOS. This is the only lane here with positive alpha in both recent folds, but it is not yet live-proven.</p></div><div class="evidence-cell"><h3>Backtest only</h3><p>Continuation heuristic: +1.86pp alpha at 21 sessions and +7.08pp at 63 sessions for the historical top quintile. Promising, but tail-sensitive and not yet forward-proven.</p></div><div class="evidence-cell"><h3>Path cohort</h3><p>Legacy MaxAvg/P(+10%) cells describe historical path payoff, not realizable alpha. XGBoost failed fold stability and is excluded from ranking. Moonshots remain experimental.</p></div><div class="evidence-cell"><h3>FMP fundamentals</h3><p>Eight quarterly statements become current TTM versus prior TTM revenue, net margin and FCF margin. Dated Piotroski/Altman may tilt rank; growth and margins remain display-only until their own PIT outcomes mature. Biotech collaboration revenue is marked as potentially lumpy.</p></div></div></details>
+<div class="footline">Research publication, not an execution record. Every source call is retained in 2026-08-21_calls.json and graded when its horizon matures. Focus means review first; it does not mean capital was deployed.</div>
+</div>
+<script id="px" type="application/json">{}</script>
+<script>
+document.querySelectorAll("table").forEach(function(t){
+  var ths=t.querySelectorAll("thead th");
+  ths.forEach(function(th,i){
+    th.addEventListener("click",function(){
+      var tb=t.tBodies[0], rows=Array.prototype.slice.call(tb.rows);
+      var dir = th.dataset.d==="a" ? "d" : "a"; th.dataset.d=dir;
+      ths.forEach(function(o){o.classList.remove("sorted-a","sorted-d");});
+      th.classList.add(dir==="a"?"sorted-a":"sorted-d");
+      var num=function(s){return parseFloat(String(s).replace(/[^0-9eE.+\-]/g,""));};
+      rows.sort(function(a,b){
+        var x=a.cells[i]?a.cells[i].innerText:"", y=b.cells[i]?b.cells[i].innerText:"";
+        var nx=num(x), ny=num(y);
+        var c=(isNaN(nx)||isNaN(ny)) ? x.localeCompare(y) : nx-ny;
+        return dir==="a"?c:-c;
+      });
+      rows.forEach(function(r){tb.appendChild(r);});
+    });
+  });
+});
+(function(){
+  var tt=document.createElement("div");tt.id="tt";document.body.appendChild(tt);
+  var timer=null;
+  function show(el){
+    tt.textContent=el.getAttribute("data-tip");tt.style.display="block";
+    var r=el.getBoundingClientRect(),w=tt.offsetWidth;
+    var x=Math.max(8,Math.min(r.left+r.width/2-w/2,window.innerWidth-w-8));
+    tt.style.left=(x+window.scrollX)+"px";tt.style.top=(r.bottom+8+window.scrollY)+"px";
+  }
+  function hide(){tt.style.display="none";if(timer){clearTimeout(timer);timer=null;}}
+  document.addEventListener("mouseover",function(e){
+    var t=e.target.closest?e.target.closest("[data-tip]"):null;
+    if(t)show(t);else hide();
+  });
+  document.addEventListener("click",function(e){
+    var t=e.target.closest?e.target.closest("[data-tip]"):null;
+    if(t){show(t);if(timer)clearTimeout(timer);timer=setTimeout(hide,5000);}
+    else hide();
+  });
+  window.addEventListener("scroll",hide,{passive:true});
+})();
+document.querySelectorAll(".band").forEach(function(b){
+  var seen={},tks=[];
+  b.querySelectorAll('td.tk[data-copy="1"],.tkx[data-copy="1"]').forEach(function(td){
+  var m=(td.textContent||"").trim().match(/^[A-Z][A-Z0-9.-]*/);
+    if(m&&!seen[m[0]]){seen[m[0]]=1;tks.push(m[0]);}
+  });
+  var h=b.querySelector(".bh");
+  if(!tks.length||!h)return;
+  var btn=document.createElement("button");
+  btn.className="cpy";btn.textContent="⧉ copy tickers";
+  btn.addEventListener("click",function(ev){
+    ev.stopPropagation();
+    var txt=tks.join(",");
+    function ok(){btn.textContent="✓ copied "+tks.length;
+      setTimeout(function(){btn.textContent="⧉ copy tickers";},1800);}
+    function fb(){var ta=document.createElement("textarea");ta.value=txt;
+      ta.style.position="fixed";ta.style.opacity="0";document.body.appendChild(ta);
+      ta.select();try{document.execCommand("copy");ok();}catch(e){}
+      document.body.removeChild(ta);}
+    if(navigator.clipboard&&navigator.clipboard.writeText)
+      navigator.clipboard.writeText(txt).then(ok,fb);
+    else fb();
+  });
+  h.appendChild(btn);
+});
+(function(){
+  var el=document.getElementById("px");if(!el)return;
+  var PX;try{PX=JSON.parse(el.textContent||"{}");}catch(e){return;}
+  var cp=document.createElement("div");cp.id="chartpop";
+  var cv=document.createElement("canvas");cv.width=260;cv.height=110;
+  var cap=document.createElement("div");cap.className="cap";
+  cp.appendChild(cv);cp.appendChild(cap);document.body.appendChild(cp);
+  var hideT=null;
+  function draw(t){
+    var d=PX[t];if(!d||d.length<2)return false;
+    var c=cv.getContext("2d");c.clearRect(0,0,260,110);
+    var mn=Math.min.apply(null,d),mx=Math.max.apply(null,d),rg=(mx-mn)||1;
+    var up=d[d.length-1]>=d[0];
+    c.beginPath();
+    for(var i=0;i<d.length;i++){
+      var x=8+i*(244/(d.length-1)),y=100-((d[i]-mn)/rg)*88;
+      i?c.lineTo(x,y):c.moveTo(x,y);
+    }
+    c.strokeStyle=up?"#3fb950":"#f85149";c.lineWidth=1.6;c.stroke();
+    var ly=100-((d[d.length-1]-mn)/rg)*88;
+    c.fillStyle=c.strokeStyle;c.beginPath();c.arc(252,ly,2.6,0,7);c.fill();
+    var pct=(d[d.length-1]/d[0]-1)*100;
+    cap.textContent=t+"  "+(pct>=0?"+":"")+pct.toFixed(1)+"% · 6 mo";
+    return true;
+  }
+  function show(td){
+    var m=(td.textContent||"").trim().match(/^[A-Z][A-Z0-9.-]*/);
+    if(!m||!draw(m[0]))return;
+    cp.style.display="block";
+    var r=td.getBoundingClientRect(),w=cp.offsetWidth;
+    var x=r.right+10+window.scrollX;
+    if(x+w>window.scrollX+window.innerWidth-8)x=Math.max(8,r.left+window.scrollX-w-10);
+    cp.style.left=x+"px";cp.style.top=Math.max(8,r.top+window.scrollY-30)+"px";
+  }
+  function hide(){cp.style.display="none";if(hideT){clearTimeout(hideT);hideT=null;}}
+  document.addEventListener("mouseover",function(e){
+    var td=e.target.closest?e.target.closest("td.tk,.tkx"):null;
+    if(td)show(td);else hide();
+  });
+  document.addEventListener("click",function(e){
+    var td=e.target.closest?e.target.closest("td.tk,.tkx"):null;
+    if(td){show(td);if(hideT)clearTimeout(hideT);hideT=setTimeout(hide,6000);}
+  });
+  window.addEventListener("scroll",hide,{passive:true});
+})();
+</script>
+</body>
+</html>
