@@ -1,7 +1,7 @@
 {
   "cleanUrls": true,
   "rewrites": [
-    { "source": "/", "destination": "/issues/2026-09-15/" },
-    { "source": "/brief", "destination": "/issues/2026-09-15/brief/" }
+    { "source": "/", "destination": "/issues/2026-09-16/" },
+    { "source": "/brief", "destination": "/issues/2026-09-16/brief/" }
   ]
 }
