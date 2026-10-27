@@ -3,15 +3,15 @@
   "rewrites": [
     {
       "source": "/",
-      "destination": "/issues/2026-10-24/"
+      "destination": "/issues/2026-10-27/"
     },
     {
       "source": "/brief",
-      "destination": "/issues/2026-10-24/brief/"
+      "destination": "/issues/2026-10-27/brief/"
     },
     {
       "source": "/alpha",
-      "destination": "/issues/2026-10-24/alpha/"
+      "destination": "/issues/2026-10-27/alpha/"
     }
   ]
 }
